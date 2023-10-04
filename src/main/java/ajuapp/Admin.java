@@ -1,5 +1,6 @@
 package ajuapp;
 
+import ajuapp.database.DBUtils;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -9,16 +10,62 @@ import java.util.Scanner;
 public class Admin extends Person {
     private String id = "A";
     private static int adminID = 1000001;
+    private int tblAdminId;
+    private int tblAdminPersonId;
     private static List<Admin> admins = new ArrayList<>();
+    private static int idAdmin = 1;
 
     public Admin(String firstName, String lastName) {
         super(firstName, lastName);
         this.id = id + adminID;
         adminID ++;
+        this.tblAdminId = idAdmin;
+        idAdmin ++;
+    }
+
+    public Admin() {};
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getTblAdminId() {
+        return tblAdminId;
+    }
+
+    public void setTblAdminId(int tblAdminId) {
+        this.tblAdminId = tblAdminId;
+    }
+
+    public int getTblAdminPersonId() {
+        return tblAdminPersonId;
+    }
+
+    public void setTblAdminPersonId(int tblAdminPersonId) {
+        this.tblAdminPersonId = tblAdminPersonId;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin {" +
+                "tblAdminId = " + getTblAdminId() +
+                ", tblPersonAdminId = " + getTblAdminPersonId() +
+                ", tblPersonId = " + getTblPersonId() +
+                ", firstName = '" + getFirstName() + "'" +
+                ", lastName = '" + getLastName() + "'" +
+                ", username = '" + getUserName() + "'" +
+                ", password = '" + getPassword() + "'" +
+                ", id = " + getId() +
+                "}";
     }
 
     public static void addAdmin(Admin admin) {
         admins.add(admin);
+        DBUtils.createAdmin(admin);
     }
 
     public static void printAdmins() {

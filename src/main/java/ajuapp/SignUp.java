@@ -1,5 +1,7 @@
 package ajuapp;
 
+import ajuapp.database.DBUtils;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,8 +12,46 @@ public class SignUp {
     }
 
     private void signUp() {
-        Admin.addAdmin(new Admin("Ivan", "Sidorov"));
+        Admin admin = new Admin("Ivan", "Sidorov");
+        Admin.addAdmin(admin);
+
+        System.out.println();
+        System.out.println("___________________________________________");
+        System.out.println("Local Admins list");
         Admin.printAdmins();
+
+        System.out.println();
+        System.out.println("___________________________________________");
+        System.out.println("DB Users list");
+        List<Person> dbPersons = DBUtils.getTablePersonData();
+        System.out.println(dbPersons);
+
+        System.out.println();
+        System.out.println("___________________________________________");
+        System.out.println("DB Admins list");
+        List<Admin> dbAdmins = DBUtils.getTableAdminData();
+        System.out.println(dbAdmins);
+
+        admin = new Admin("Anrey", "Sidorov");
+        Admin.addAdmin(admin);
+
+        System.out.println();
+        System.out.println("___________________________________________");
+        System.out.println("Local Admins list");
+        Admin.printAdmins();
+
+        System.out.println();
+        System.out.println("___________________________________________");
+        System.out.println("DB Users list");
+        dbPersons = DBUtils.getTablePersonData();
+        System.out.println(dbPersons);
+
+        System.out.println();
+        System.out.println("___________________________________________");
+        System.out.println("DB Admins list");
+        dbAdmins = DBUtils.getTableAdminData();
+        System.out.println(dbAdmins);
+
 
         System.out.println();
         System.out.println("Enter 'Q' for quit OR");
