@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Admin extends Person {
+public class Admin extends Person implements IPrintAdmin, IExit {
     private String id = "A";
     private static int adminID = 1000001;
     private int tblAdminId;
     private int tblAdminPersonId;
-    private static List<Admin> admins = new ArrayList<>();
+    public static List<Admin> admins = new ArrayList<>();
     private static int idAdmin = 1;
 
     public Admin(String firstName, String lastName) {
@@ -21,6 +21,7 @@ public class Admin extends Person {
         adminID ++;
         this.tblAdminId = idAdmin;
         idAdmin ++;
+        this.tblAdminPersonId = getTblPersonId();
     }
 
     public Admin() {};
@@ -53,7 +54,7 @@ public class Admin extends Person {
     public String toString() {
         return "Admin {" +
                 "tblAdminId = " + getTblAdminId() +
-                ", tblPersonAdminId = " + getTblAdminPersonId() +
+                ", tblAdminPersonId = " + getTblAdminPersonId() +
                 ", tblPersonId = " + getTblPersonId() +
                 ", firstName = '" + getFirstName() + "'" +
                 ", lastName = '" + getLastName() + "'" +
@@ -64,39 +65,24 @@ public class Admin extends Person {
     }
 
     public static void addAdmin(Admin admin) {
-        admins.add(admin);
-        DBUtils.createAdmin(admin);
-    }
-
-    public static void printAdmins() {
-        for(Admin admin : admins) {
-            System.out.println(admin.getFirstName());
-            System.out.println(admin.getLastName());
-            System.out.println(admin.getPassword());
-            System.out.println(admin.getUserName());
-            System.out.println(admin.id);
-        }
-    }
-
-    public static List<Admin> getAdmins() {
-        return admins;
+        DBUtils.insertAdmin(admin);
+        admins = DBUtils.getTableAdminData();
     }
 
     public void runAdmin(){
-        Utils.printExitMessage();
+        printQForExit();
 
         Scanner in = new Scanner(System.in);
 
         System.out.println("Would you like");
         System.out.println("1 - Register new user");
-        System.out.println("2 - Print existing data");
+        System.out.println("2 - Print existing data from DB");
 
         String input = in.nextLine();
 
         switch (input) {
             case "Q", "q" -> {
-                System.out.println("Goodbye");
-                System.exit(0);
+                exitIfQ();
             }
             case "1" -> runRegistration();
             case "2" -> runPrintInformation();
@@ -105,8 +91,7 @@ public class Admin extends Person {
 
     private void runRegistration() {
         System.out.println("Running Registration");
-
-        Utils.printExitMessage();
+        printQForExit();
 
         Scanner in = new Scanner(System.in);
 
@@ -119,54 +104,60 @@ public class Admin extends Person {
 
         switch (input) {
             case "Q", "q" -> {
-                System.out.println("Goodbye");
-                System.exit(0);
+                exitIfQ();
             }
             case "1" -> runRegisterNewStudent();
             case "2" -> runRegisterNewProfessor();
             case "3" -> runRegisterNewAdmin();
         }
-
     }
 
     private void runPrintInformation() {
         System.out.println("Running Print Information");
-        Utils.printExitMessage();
+        printQForExit();
     }
 
     private void runRegisterNewStudent() {
         System.out.println("Register New Student");
-        Utils.printExitMessage();
+        printQForExit();
 
         Scanner in = new Scanner(System.in);
 
         System.out.print("Enter first name: ");
         String input = in.nextLine();
+        exitIfQ(input);
         String firstName = input;
 
         System.out.print("Enter last name: ");
         input = in.nextLine();
+        exitIfQ(input);
         String lastName = input;
 
-        System.out.println("Would you like to register student for courses?");
-        System.out.println("1 - yes");
-        System.out.println("2 - no");
-        System.out.println("Q - for exit");
-        input = in.nextLine();
+        Student student = new Student(firstName, lastName);
+        Student.addStudent(student);
 
-        switch (input) {
-            case "Q", "q" -> {
-                System.out.println("Goodbye");
-                System.exit(0);
-            }
-            case "1" -> runCourseRegistration();
-            case "2" -> {
-                Student student = new Student(firstName, lastName, new ArrayList<>());
-                student.addStudent(student);
+        printStudentsList();
 
-                runRegistration();
-            }
-        }
+
+//        System.out.println("Would you like to register student for courses?");
+//        System.out.println("1 - yes");
+//        System.out.println("2 - no");
+//        System.out.println("Q - for exit");
+//        input = in.nextLine();
+//
+//        switch (input) {
+//            case "Q", "q" -> {
+//                System.out.println("Goodbye");
+//                System.exit(0);
+//            }
+//            case "1" -> runCourseRegistration();
+//            case "2" -> {
+//                Student student1 = new Student(firstName, lastName, new ArrayList<>());
+//                student.addStudent(student1);
+//
+//                runRegistration();
+//            }
+//        }
 
     }
 

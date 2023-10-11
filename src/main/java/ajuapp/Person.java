@@ -1,28 +1,38 @@
 package ajuapp;
 
-public class Person {
+import ajuapp.database.DBUtils;
+import ajuapp.database.Tables;
+
+public abstract class Person {
+    private int tblPersonId;
     private String firstName;
     private String lastName;
     private String userName;
     private String password;
-    private int tblPersonId;
-    private static int userNameId = 103;
-    private static int idPerson = 1;
+    private int userNameId = tblPersonId + 1097523;
 
     public Person(String firstName, String lastName) {
+        int lastTblPersonId = DBUtils.getLastIdFromTable(Tables.PERSON);
+        this.tblPersonId = lastTblPersonId + 1;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = String.valueOf(userNameId);
         generateUsername(firstName, lastName);
         userNameId ++;
-        this.tblPersonId = idPerson;
-        idPerson ++;
     }
 
     public Person() {};
 
     private void generateUsername(String firstName, String lastName) {
         this.userName = firstName.trim().charAt(0) + lastName.trim() + userNameId;
+    }
+
+    public int getTblPersonId() {
+        return tblPersonId;
+    }
+
+    public void setTblPersonId(int tblPersonId) {
+        this.tblPersonId = tblPersonId;
     }
 
     public String getFirstName() {
@@ -57,22 +67,22 @@ public class Person {
         this.password = password;
     }
 
-    public int getTblPersonId() {
-        return tblPersonId;
+    public int getUserNameId() {
+        return userNameId;
     }
 
-    public void setTblPersonId(int tblPersonId) {
-        this.tblPersonId = tblPersonId;
+    public void setUserNameId(int userNameId) {
+        this.userNameId = userNameId;
     }
 
     @Override
     public String toString() {
-        return "Person {" +
-                "tblPersonId = " + getTblPersonId() +
-                ", firstName = '" + getFirstName() + "'" +
-                ", lastName = '" + getLastName() + "'" +
-                ", username = '" + getUserName() + "'" +
-                ", password = '" + getPassword() + "'" +
+        return "Person {\n" +
+                "tblPersonId = " + getTblPersonId() + ",\n" +
+                "firstName = '" + getFirstName() + "',\n" +
+                "lastName = '" + getLastName() + "',\n" +
+                "username = '" + getUserName() + "',\n" +
+                "password = '" + getPassword() + "',\n" +
                 "}";
     }
 

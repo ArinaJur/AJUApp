@@ -1,0 +1,19 @@
+2023-10-10 21:58:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#4" is not set; SQL statement:
+INSERT INTO tbl_student(student_id, person_id, academic_id, id) VALUES (?, ?, ?, ?) [90012-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:75)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:207)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:159)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at ajuapp.database.DBUtils.insertAdmin(DBUtils.java:158)
+	at ajuapp.Admin.addAdmin(Admin.java:68)
+	at ajuapp.SignUp.signUp(SignUp.java:19)
+	at ajuapp.SignUp.runAJUApp(SignUp.java:56)
+	at ajuapp.App.runAJUApp(App.java:6)
+	at ajuapp.AJUApp.main(AJUApp.java:5)
