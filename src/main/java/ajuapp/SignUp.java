@@ -6,6 +6,7 @@ import java.util.Scanner;
 import static ajuapp.Admin.admins;
 
 public class SignUp implements IExit {
+
     private void printWelcomeMessage() {
         System.out.println("        Welcome to AJU!");
         System.out.println();
@@ -41,19 +42,17 @@ public class SignUp implements IExit {
 
     private void checkCredentials(String userName, String password) {
         for(Admin admin: admins) {
-            if(admin.getUserName().equals(userName) && admin.getPassword().equals(password) && admin.getId().startsWith("A")) {
+            if(admin.getUserName().equals(userName) && admin.getPassword().equals(password) && admin.getRoleId().startsWith("A")) {
                 System.out.println("Welcome, " + admin.getFirstName() + " " + admin.getLastName() + "!");
                 admin.runAdmin();
-            } else {
-                exitIfAuthorizedUser();
-                return;
             }
         }
+
+        exitIfAuthorizedUser();
     }
 
     public void runAJUApp() {
         printWelcomeMessage();
         signUp();
-
     }
 }

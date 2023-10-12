@@ -12,21 +12,21 @@ CREATE TABLE IF NOT EXISTS tbl_person (
 CREATE TABLE IF NOT EXISTS tbl_admin (
     admin_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     person_id BIGINT,
-    id VARCHAR(8)
+    role_id VARCHAR(8)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_student (
     student_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     person_id BIGINT,
     academic_id BIGINT,
-    id VARCHAR(8)
+    role_id VARCHAR(8)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_professor (
     professor_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     person_id BIGINT,
     academic_id BIGINT,
-    id VARCHAR(8)
+    role_id VARCHAR(8)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_academic (

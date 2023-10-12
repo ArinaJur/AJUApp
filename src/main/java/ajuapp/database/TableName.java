@@ -1,5 +1,5 @@
 package ajuapp.database;
 
-public enum Tables {
+public enum TableName {
     PERSON, ADMIN, STUDENT, PROFESSOR, ACADEMIC, COURSE
 }

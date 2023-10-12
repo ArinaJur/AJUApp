@@ -1,7 +1,7 @@
 package ajuapp;
 
 import ajuapp.database.DBUtils;
-import ajuapp.database.Tables;
+import ajuapp.database.TableName;
 
 public abstract class Person {
     private int tblPersonId;
@@ -9,22 +9,31 @@ public abstract class Person {
     private String lastName;
     private String userName;
     private String password;
-    private int userNameId = tblPersonId + 1097523;
 
     public Person(String firstName, String lastName) {
-        int lastTblPersonId = DBUtils.getLastIdFromTable(Tables.PERSON);
+        int lastTblPersonId = DBUtils.getLastIdFromTable(TableName.PERSON);
         this.tblPersonId = lastTblPersonId + 1;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = String.valueOf(userNameId);
-        generateUsername(firstName, lastName);
-        userNameId ++;
+        int userNameId = tblPersonId + 1097523;
+        this.firstName = capitalizeString(firstName);
+        this.lastName = capitalizeString(lastName);
+        this.userName = generateUsername(userNameId);
+        this.password = generatePassword(userNameId);
     }
 
     public Person() {};
 
-    private void generateUsername(String firstName, String lastName) {
-        this.userName = firstName.trim().charAt(0) + lastName.trim() + userNameId;
+    private String capitalizeString(String string) {
+        return string.trim().toUpperCase().charAt(0) + string.substring(1).toLowerCase();
+    }
+
+    private String generateUsername(int userNameId) {
+        return getFirstName().trim().charAt(0) + getLastName().trim() + userNameId;
+    }
+
+    private String generatePassword(int userNameId) {
+        String fLetter = String.valueOf(getFirstName().trim().toLowerCase().charAt(0));
+        String sLetter = String.valueOf(getLastName().toUpperCase().trim().charAt(0));
+        return  fLetter + sLetter + (userNameId / 9);
     }
 
     public int getTblPersonId() {
@@ -67,14 +76,6 @@ public abstract class Person {
         this.password = password;
     }
 
-    public int getUserNameId() {
-        return userNameId;
-    }
-
-    public void setUserNameId(int userNameId) {
-        this.userNameId = userNameId;
-    }
-
     @Override
     public String toString() {
         return "Person {\n" +
@@ -83,7 +84,6 @@ public abstract class Person {
                 "lastName = '" + getLastName() + "',\n" +
                 "username = '" + getUserName() + "',\n" +
                 "password = '" + getPassword() + "',\n" +
-                "}";
+                "},\n";
     }
-
 }
