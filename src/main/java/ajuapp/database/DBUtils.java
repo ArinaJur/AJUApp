@@ -393,7 +393,7 @@ public class DBUtils {
             int idAcademic = academic.getTblAcademicId();
             String query = SELECT_ACADEMICS + " WHERE academic_id = " + idAcademic;
 
-            ResultSet resultAcademic = statement.executeQuery(query);//Select * From Users Where Id = 123
+            ResultSet resultAcademic = statement.executeQuery(query);
 
             while (resultAcademic.next()) {
                 int tblAcademicId = resultAcademic.getInt("academic_id");
