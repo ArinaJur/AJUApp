@@ -1,28 +1,47 @@
 package ajuapp;
 
-public class Person {
+import ajuapp.database.DBUtils;
+import ajuapp.database.TableName;
+
+public abstract class Person {
+    private int tblPersonId;
     private String firstName;
     private String lastName;
     private String userName;
     private String password;
-    private int tblPersonId;
-    private static int userNameId = 103;
-    private static int idPerson = 1;
 
     public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = String.valueOf(userNameId);
-        generateUsername(firstName, lastName);
-        userNameId ++;
-        this.tblPersonId = idPerson;
-        idPerson ++;
+        int lastTblPersonId = DBUtils.getLastIdFromTable(TableName.PERSON);
+        this.tblPersonId = lastTblPersonId + 1;
+        int userNameId = tblPersonId + 1097523;
+        this.firstName = capitalizeString(firstName);
+        this.lastName = capitalizeString(lastName);
+        this.userName = generateUsername(userNameId);
+        this.password = generatePassword(userNameId);
     }
 
     public Person() {};
 
-    private void generateUsername(String firstName, String lastName) {
-        this.userName = firstName.trim().charAt(0) + lastName.trim() + userNameId;
+    private String capitalizeString(String string) {
+        return string.trim().toUpperCase().charAt(0) + string.substring(1).toLowerCase();
+    }
+
+    private String generateUsername(int userNameId) {
+        return getFirstName().trim().charAt(0) + getLastName().trim() + userNameId;
+    }
+
+    private String generatePassword(int userNameId) {
+        String fLetter = String.valueOf(getFirstName().trim().toLowerCase().charAt(0));
+        String sLetter = String.valueOf(getLastName().toUpperCase().trim().charAt(0));
+        return  fLetter + sLetter + (userNameId / 9);
+    }
+
+    public int getTblPersonId() {
+        return tblPersonId;
+    }
+
+    public void setTblPersonId(int tblPersonId) {
+        this.tblPersonId = tblPersonId;
     }
 
     public String getFirstName() {
@@ -57,23 +76,14 @@ public class Person {
         this.password = password;
     }
 
-    public int getTblPersonId() {
-        return tblPersonId;
-    }
-
-    public void setTblPersonId(int tblPersonId) {
-        this.tblPersonId = tblPersonId;
-    }
-
     @Override
     public String toString() {
-        return "Person {" +
-                "tblPersonId = " + getTblPersonId() +
-                ", firstName = '" + getFirstName() + "'" +
-                ", lastName = '" + getLastName() + "'" +
-                ", username = '" + getUserName() + "'" +
-                ", password = '" + getPassword() + "'" +
-                "}";
+        return "Person {\n" +
+                "tblPersonId = " + getTblPersonId() + ",\n" +
+                "firstName = '" + getFirstName() + "',\n" +
+                "lastName = '" + getLastName() + "',\n" +
+                "username = '" + getUserName() + "',\n" +
+                "password = '" + getPassword() + "',\n" +
+                "},\n";
     }
-
 }

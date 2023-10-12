@@ -1,0 +1,94 @@
+2023-10-10 21:58:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#4" is not set; SQL statement:
+INSERT INTO tbl_student(student_id, person_id, academic_id, id) VALUES (?, ?, ?, ?) [90012-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:75)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:207)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:159)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at ajuapp.database.DBUtils.insertAdmin(DBUtils.java:158)
+	at ajuapp.Admin.addAdmin(Admin.java:68)
+	at ajuapp.SignUp.signUp(SignUp.java:19)
+	at ajuapp.SignUp.runAJUApp(SignUp.java:56)
+	at ajuapp.App.runAJUApp(App.java:6)
+	at ajuapp.AJUApp.main(AJUApp.java:5)
+2023-10-11 14:01:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "ID CHARACTER VARYING(8)": "'A11000000' (9)"; SQL statement:
+INSERT INTO tbl_admin(admin_id, person_id, id) VALUES (?, ?, ?) [22001-220]
+2023-10-11 21:53:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The result set is not scrollable and can not be reset. You may need to use conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ..). [90128-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcResultSet.resetResult(JdbcResultSet.java:3617)
+	at org.h2.jdbc.JdbcResultSet.first(JdbcResultSet.java:3130)
+	at ajuapp.database.DBUtils.getTableAdminData(DBUtils.java:149)
+	at ajuapp.SignUp.signUp(SignUp.java:16)
+	at ajuapp.SignUp.runAJUApp(SignUp.java:57)
+	at ajuapp.App.runAJUApp(App.java:6)
+	at ajuapp.AJUApp.main(AJUApp.java:5)
+2023-10-11 21:54:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.NullPointerException: Cannot invoke ""org.h2.engine.User.checkTableRight(org.h2.table.Table, int)"" because the return value of ""org.h2.engine.SessionLocal.getUser()"" is null" [50000-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:407)
+	at org.h2.message.DbException.toSQLException(DbException.java:379)
+	at org.h2.message.TraceObject.logAndConvert(TraceObject.java:365)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:291)
+	at ajuapp.database.DBUtils.getLastIdFromTable(DBUtils.java:82)
+	at ajuapp.Person.<init>(Person.java:14)
+	at ajuapp.Admin.<init>(Admin.java:18)
+	at ajuapp.SignUp.signUp(SignUp.java:19)
+	at ajuapp.SignUp.runAJUApp(SignUp.java:57)
+	at ajuapp.App.runAJUApp(App.java:6)
+	at ajuapp.AJUApp.main(AJUApp.java:5)
+Caused by: java.lang.NullPointerException: Cannot invoke "org.h2.engine.User.checkTableRight(org.h2.table.Table, int)" because the return value of "org.h2.engine.SessionLocal.getUser()" is null
+	at org.h2.table.TableFilter.<init>(TableFilter.java:161)
+	at org.h2.command.Parser.buildTableFilter(Parser.java:1987)
+	at org.h2.command.Parser.readTablePrimary(Parser.java:1927)
+	at org.h2.command.Parser.readTableReference(Parser.java:2391)
+	at org.h2.command.Parser.parseSelectFromPart(Parser.java:2844)
+	at org.h2.command.Parser.parseSelect(Parser.java:2950)
+	at org.h2.command.Parser.parseQueryPrimary(Parser.java:2834)
+	at org.h2.command.Parser.parseQueryTerm(Parser.java:2690)
+	at org.h2.command.Parser.parseQueryExpressionBody(Parser.java:2669)
+	at org.h2.command.Parser.parseQueryExpressionBodyAndEndOfQuery(Parser.java:2662)
+	at org.h2.command.Parser.parseQueryExpression(Parser.java:2655)
+	at org.h2.command.Parser.parseQuery(Parser.java:2624)
+	at org.h2.command.Parser.parsePrepared(Parser.java:732)
+	at org.h2.command.Parser.parse(Parser.java:697)
+	at org.h2.command.Parser.parse(Parser.java:669)
+	at org.h2.command.Parser.prepareCommand(Parser.java:577)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:634)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:557)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:92)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:288)
+	... 7 more
+2023-10-11 21:58:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The result set is not scrollable and can not be reset. You may need to use conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ..). [90128-220]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcResultSet.resetResult(JdbcResultSet.java:3617)
+	at org.h2.jdbc.JdbcResultSet.first(JdbcResultSet.java:3130)
+	at ajuapp.database.DBUtils.getTableAdminData(DBUtils.java:149)
+	at ajuapp.SignUp.signUp(SignUp.java:16)
+	at ajuapp.SignUp.runAJUApp(SignUp.java:57)
+	at ajuapp.App.runAJUApp(App.java:6)
+	at ajuapp.AJUApp.main(AJUApp.java:5)
+2023-10-12 02:57:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TBL_ACADEMICWHERE" not found; SQL statement:
+SELECT * FROM tbl_academicWHERE academic_id = 13 [42102-220]
+2023-10-12 02:59:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-220]
