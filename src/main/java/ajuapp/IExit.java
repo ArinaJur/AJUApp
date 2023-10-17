@@ -15,12 +15,7 @@ public interface IExit {
         }
     }
 
-    default void exitIfQ() {
-        System.out.println("Goodbye");
-        System.exit(0);
-    }
-
-    default void exitIfAuthorizedUser() {
+    default void exitIfUnauthorizedUser() {
         System.out.println("Sorry, we can't recognize you. Check your credentials and try again later.");
         System.out.println("Goodbye");
         System.exit(0);

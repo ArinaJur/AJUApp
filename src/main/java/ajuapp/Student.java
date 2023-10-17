@@ -1,73 +1,52 @@
 package ajuapp;
 
 import ajuapp.database.DBUtils;
-import ajuapp.database.TableName;
+import ajuapp.database.Table;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student extends Academic{
+public final class Student extends Academic<Student> implements IPrintAcademic {
     private int tblStudentId;
     private int tblStudentPersonId;
     private int tblStudentAcademicId;
     private String roleId = "S";
     public static List<Student> students = new ArrayList<>();
 
-    public Student(String firstName, String lastName, List<String> courses) {
-        super(firstName, lastName, courses);
-        int lastTblStudentId = DBUtils.getLastIdFromTable(TableName.STUDENT);
-        this.tblStudentId = lastTblStudentId + 1;
-        this.tblStudentPersonId = getTblPersonId();
-        this.tblStudentAcademicId = getTblAcademicId();
-        this.roleId = roleId + 2000 +tblStudentId;
-    }
+    public Student() {}
 
     public Student(String firstName, String lastName) {
-        super(firstName, lastName, new ArrayList<>());
-        int lastTblStudentId = DBUtils.getLastIdFromTable(TableName.STUDENT);
-        this.tblStudentId = lastTblStudentId + 1;
+        super(firstName, lastName);
+        this.tblStudentId = DBUtils.getLastId(Table.NAME.TBL_STUDENT) + 1;
         this.tblStudentPersonId = getTblPersonId();
         this.tblStudentAcademicId = getTblAcademicId();
-        this.roleId = roleId + 2000 +tblStudentId;
+        this.roleId = roleId + 2000 + tblStudentId;
     }
 
-    public Student() {};
+    public Student(int tblPersonId, String firstName, String lastName, String userName, String password,
+                   int tblAcademicId, int course1, int course2, int course3, int course4, int course5, int course6,
+                   int tblStudentId, int tblStudentPersonId, int tblStudentAcademicId, String roleId) {
+        super(tblPersonId, firstName, lastName, userName, password, tblAcademicId, course1, course2, course3, course4, course5, course6);
+        this.tblStudentId = tblStudentId;
+        this.tblStudentPersonId = tblStudentPersonId;
+        this.tblStudentAcademicId = tblStudentAcademicId;
+        this.roleId = roleId;
+    }
 
     public int getTblStudentId() {
         return tblStudentId;
-    }
-
-    public void setTblStudentId(int tblStudentId) {
-        this.tblStudentId = tblStudentId;
     }
 
     public int getTblStudentPersonId() {
         return tblStudentPersonId;
     }
 
-    public void setTblStudentPersonId(int tblStudentPersonId) {
-        this.tblStudentPersonId = tblStudentPersonId;
-    }
-
     public int getTblStudentAcademicId() {
         return tblStudentAcademicId;
     }
 
-    public void setTblStudentAcademicId(int tblStudentAcademicId) {
-        this.tblStudentAcademicId = tblStudentAcademicId;
-    }
-
     public String getRoleId() {
         return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public static void addStudent(Student student) {
-        DBUtils.insertStudent(student);
-        students = DBUtils.getTableStudentData();
     }
 
     private String getCourseName (int courseId) {
@@ -77,7 +56,6 @@ public class Student extends Academic{
                 return course.getCourseName();
             }
         }
-
         return "";
     }
 
@@ -102,5 +80,30 @@ public class Student extends Academic{
                 "course5 = '" + getCourseName(getCourse5()) + "',\n" +
                 "course6 = '" + getCourseName(getCourse6()) + "',\n" +
                 "},\n";
+    }
+
+    @Override
+    public int getAcademicId() {
+        return tblStudentAcademicId;
+    }
+
+    @Override
+    public char getRole() {
+        return roleId.charAt(0);
+    }
+
+    @Override
+    public Student getTableData(int id) {
+        students = DBUtils.getTableStudentData();
+        for (Student student : students) {
+            if (student.getTblStudentId() == id) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public void runStudent() {
+
     }
 }

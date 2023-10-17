@@ -1,22 +1,26 @@
 package ajuapp;
 
 import ajuapp.database.DBUtils;
-import ajuapp.database.TableName;
+import ajuapp.database.Table;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course {
-    private int tblCourseId;
-    private String courseName;
-    private int price;
+public final class Course {
+    final private int tblCourseId;
+    final private String courseName;
+    final private int price;
     public static List<Course> courses = new ArrayList<>();
 
-    public Course() {};
-
     public Course(String courseName, int price) {
-        int lastTblCourseId = DBUtils.getLastIdFromTable(TableName.COURSE);
+        final int lastTblCourseId = DBUtils.getLastId(Table.NAME.TBL_COURSE);
         this.tblCourseId = lastTblCourseId + 1;
+        this.courseName = courseName;
+        this.price = price;
+    }
+
+    public Course(int tblCourseId, String courseName, int price) {
+        this.tblCourseId = tblCourseId;
         this.courseName = courseName;
         this.price = price;
     }
@@ -25,35 +29,18 @@ public class Course {
         return tblCourseId;
     }
 
-    public void setTblCourseId(int tblCourseId) {
-        this.tblCourseId = tblCourseId;
-    }
-
     public String getCourseName() {
         return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public static void addCourse(Course course) {
-        DBUtils.insertCourse(course);
-        courses = DBUtils.getTableCourseData();
-    }
-
     @Override
     public String toString() {
-        return "courseId = " + getTblCourseId() + ",\t" +
+        return "\ncourseId = " + getTblCourseId() + ",\t" +
                 "courseName = '" + getCourseName() + "',\t" +
-                "price = '" + getPrice() + "'\n";
+                "price = '" + getPrice() + "'";
     }
 }

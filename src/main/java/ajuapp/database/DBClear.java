@@ -1,26 +1,25 @@
 package ajuapp.database;
 
 import ajuapp.Admin;
-import ajuapp.Person;
 import ajuapp.Student;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class DBClear {
+public final class DBClear {
     public static void main(String[] args) {
-//        DBUtils.dropTable(TableName.PERSON);
-//        DBUtils.dropTable(TableName.ADMIN);
-//        DBUtils.dropTable(TableName.STUDENT);
-//        DBUtils.dropTable(TableName.PROFESSOR);
-//        DBUtils.dropTable(TableName.ACADEMIC);
-//        DBUtils.dropTable(TableName.COURSE);
+        DBUtils.dropTable(Table.NAME.TBL_PERSON);
+        DBUtils.dropTable(Table.NAME.TBL_ADMIN);
+        DBUtils.dropTable(Table.NAME.TBL_STUDENT);
+        DBUtils.dropTable(Table.NAME.TBL_PROFESSOR);
+        DBUtils.dropTable(Table.NAME.TBL_ACADEMIC);
+//        DBUtils.dropTable(Table.NAME.TBL_COURSE);
 
-        List<Person> dbUsers = DBUtils.getTablePersonData();
-        List<Admin> dbAdmins = DBUtils.getTableAdminData();
-        List<Student> dbStudents = DBUtils.getTableStudentData();
+        final List<Admin> dbUsers = DBUtils.getTablePersonData();
+        final List<Admin> dbAdmins = DBUtils.getTableAdminData();
+        final List<Student> dbStudents = DBUtils.getTableStudentData();
 
-        System.out.println("Persons:");
+        System.out.println("Person:");
         System.out.println(Arrays.toString(dbUsers.toArray()));
         System.out.println("Admin:");
         System.out.println(Arrays.toString(dbAdmins.toArray()));

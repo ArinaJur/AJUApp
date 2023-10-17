@@ -1,11 +1,12 @@
 package ajuapp;
 
 import ajuapp.database.DBUtils;
-import ajuapp.database.TableName;
+import ajuapp.database.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Academic extends Person {
+public abstract class Academic<T> extends Person<T> {
     private int tblAcademicId;
     private int course1;
     private int course2;
@@ -13,17 +14,29 @@ public class Academic extends Person {
     private int course4;
     private int course5;
     private int course6;
-    public static Academic academicForId = new Academic();
+    public List<T> academics = new ArrayList<>();
 
-    public Academic(String firstName, String lastName, List<String> courses) {
+    public Academic(String firstName, String lastName) {
         super(firstName, lastName);
-        this.tblAcademicId = DBUtils.getLastIdFromTable(TableName.ACADEMIC) + 1;
-        if (courses.size() != 0) {
-
-        }
+        this.tblAcademicId = DBUtils.getLastId(Table.NAME.TBL_ACADEMIC) + 1;
     }
 
-    public Academic() {}
+    public Academic(
+            int tblPersonId, String firstName, String lastName, String userName, String password,
+            int tblAcademicId, int course1, int course2, int course3, int course4, int course5, int course6
+    ) {
+        super(tblPersonId, firstName, lastName, userName, password);
+        this.tblAcademicId = tblAcademicId;
+        this.course1 = course1;
+        this.course2 = course2;
+        this.course3 = course3;
+        this.course4 = course4;
+        this.course5 = course5;
+        this.course6 = course6;
+    }
+
+    public Academic() {
+    }
 
     public int getTblAcademicId() {
         return tblAcademicId;
@@ -81,54 +94,21 @@ public class Academic extends Person {
         this.course6 = course6;
     }
 
-    public static void addCourses(int academicId, List<Integer> coursesIds) {
-        Academic academic = DBUtils.getTableAcademicData(academicId);
-
-        int[] dbIds = {academic.getCourse1(), academic.getCourse2(), academic.getCourse3(),
-                academic.getCourse4(), academic.getCourse5(), academic.getCourse6()};
-
-        for (int courseId : coursesIds) {
-            for (int i = 0; i <= dbIds.length - 1; i++) {
-                if (dbIds[i] == 0) {
-                    dbIds[i] = courseId;
-                    switch (i) {
-                        case 0 -> academic.setCourse1(courseId);
-                        case 1 -> academic.setCourse2(courseId);
-                        case 2 -> academic.setCourse3(courseId);
-                        case 3 -> academic.setCourse4(courseId);
-                        case 4 -> academic.setCourse5(courseId);
-                        case 5 -> academic.setCourse6(courseId);
-                    }
-                    break;
-                }
-            }
-        }
-        DBUtils.updateAcademicEnroll(academic);
-        Student.students = DBUtils.getTableStudentData();
-        //Professor.professors = DBUtils.getTableProfessorData();
+    public int getId() {
+        return getTblAcademicId();
     }
 
-    public static String getFirstLastName(int academicId) {
-        String firstLastNames = "";
-        for (Student student : Student.students) {
-            if (student.getTblStudentAcademicId() == academicId) {
-                firstLastNames = student.getFirstName() + " " + student.getLastName();
+    public T getTableData(Academic<T> person) {
+        academics = DBUtils.getTableAcademicData(person);
+        for(T academic : academics) {
+            if (person.getTblPersonId() == person.getId()) {
+                return academic;
             }
         }
-//        if (!firstLastNames.isEmpty()) {
-//            for (Professor professor : Professor.professors) {
-//                if (professor.getTblProfessorAcademicId() == academicId) {
-//                    firstLastNames = professor.getFirstName() + " " + professor.getLastName();
-//                }
-//            }
-//        }
-
-        if (firstLastNames.isEmpty()) {
-            System.out.println("Invalid id");
-        }
-
-        return firstLastNames;
+        return null;
     }
+
+    public abstract int getAcademicId();
 
     @Override
     public String toString() {
